@@ -8,17 +8,18 @@ from keras.models import Model
 from keras.preprocessing.image import ImageDataGenerator
 import pickle
 
-img_width, img_height = 256, 256
-train_data_dir = 'D:/4 NPS/_Thesis/Coastal image data for thesis/train'
-validation_data_dir = 'D:/4 NPS/_Thesis/Coastal image data for thesis/validation'
+img_width, img_height = 1920, 1080
+train_data_dir = 'train_images/'
+validation_data_dir = 'validation_images/'
 batch_size = 32		# changed from 32 to 1
 nb_train_samples = 9*750    #len(glob(train_data_dir + '/**/*.jpg', recursive=True)) // batch_size
 nb_validation_samples = 9*250 #len(glob(validation_data_dir + '/**/*.jpg', recursive=True)) // batch_size
 epochs = 30
 
-NB_CLASSES = 9
+NB_CLASSES = 2
 
-model = applications.VGG19(weights='imagenet', include_top=False, input_shape=(img_width, img_height, 3))
+model = applications.VGG19(weights='imagenet', include_top=False,
+        input_shape=(img_height, img_width, 3))
 
 model.summary()
 
@@ -72,8 +73,9 @@ validation_generator = test_datagen.flow_from_directory(
     target_size=(img_height, img_width),
     class_mode='categorical')
 
+print("******************SAVING THE MODEL CHECKPOINT*********************")
 # Save the model according to the conditions
-checkpoint = ModelCheckpoint('D:/4 NPS/_Thesis/Coastal image data for thesis/training_outputs/vgg19_Coastal_061018.h5',
+checkpoint = ModelCheckpoint('train_output/model_checkpoint.h5',
                              monitor='val_acc',
                              verbose=1,
                              save_best_only=True,
@@ -86,7 +88,7 @@ early = EarlyStopping(monitor='val_acc',
                       patience=10,
                       verbose=1,
                       mode='auto')
-
+print("*****************TRAINING THE MODEL********************")
 # Train the model
 history = model_final.fit_generator(
     generator=train_generator,
@@ -95,5 +97,5 @@ history = model_final.fit_generator(
     validation_data=validation_generator,
     validation_steps=nb_validation_samples,
     callbacks=[checkpoint, early])
-with open('D:/4 NPS/_Thesis/Coastal image data for thesis/training_outputs/training_outputs/history_coastal', 'w') as f:
+with open('training_output/tft_tear', 'w') as f:
     pickle.dump(history.history, f)
