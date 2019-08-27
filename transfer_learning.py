@@ -1,3 +1,4 @@
+#Pyimagesearch: https://www.pyimagesearch.com/2019/06/03/fine-tuning-with-keras-and-deep-learning/
 from glob import glob
 
 from keras import applications
@@ -11,10 +12,16 @@ import pickle
 img_width, img_height = 1920, 1080
 train_data_dir = 'train_images/'
 validation_data_dir = 'validation_images/'
-batch_size = 32		# changed from 32 to 1
-nb_train_samples = 9*750    #len(glob(train_data_dir + '/**/*.jpg', recursive=True)) // batch_size
-nb_validation_samples = 9*250 #len(glob(validation_data_dir + '/**/*.jpg', recursive=True)) // batch_size
-epochs = 30
+
+batch_size = 2		# changed from 32 to 1
+nb_train_samples = 1185    #len(glob(train_data_dir + '/**/*.jpg', recursive=True)) // batch_size
+nb_validation_samples = 334  #len(glob(validation_data_dir + '/**/*.jpg', recursive=True)) // batch_size
+epochs = 2
+
+#batch_size = 32		# changed from 32 to 1
+#nb_train_samples = 9*750    #len(glob(train_data_dir + '/**/*.jpg', recursive=True)) // batch_size
+#nb_validation_samples = 9*250 #len(glob(validation_data_dir + '/**/*.jpg', recursive=True)) // batch_size
+#epochs = 30
 
 NB_CLASSES = 2
 
